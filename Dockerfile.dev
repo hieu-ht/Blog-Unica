@@ -1,0 +1,10 @@
+FROM node:10.14.2
+
+WORKDIR /app
+
+ADD package.json tsconfig.json tslint.json /app/
+RUN yarn
+
+# ADD .env .env.example /app/
+
+CMD ["yarn", "debug"]

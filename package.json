@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev": "set NODE_ENV=dev && ts-node ./src/server.ts",
+    "dev": "NODE_ENV='dev' ts-node ./src/server.ts",
+    "debug": "NODE_ENV='debug' ts-node ./src/server.ts",
     "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run start"
   },
@@ -27,7 +28,8 @@
     "morgan": "^1.9.1",
     "mysql": "^2.16.0",
     "request": "^2.88.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "winston": "^3.1.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",

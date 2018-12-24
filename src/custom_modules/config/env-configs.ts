@@ -1,12 +1,10 @@
 declare var process: any;
 
 export const SERVER_PORT = process.env.SERVER_PORT;
-export const MONGODB_URI = process.env.MONGODB_URI;
-export const MYSQL_HOST = 'localhost';
-export const MYSQL_PORT = 3306;
-// export const MYSQL_USER = 'blog';
-export const MYSQL_USER = 'root';
-export const MYSQL_PASSWORD = '12345678';
-export const MYSQL_DATABASE = 'blog';
-export const BCRYPT_SALT = 10;
-export const SECRET_KEY = 'secretkey';
+export const MYSQL_HOST = process.env.MYSQL_HOST;
+export const MYSQL_PORT = process.env.MYSQL_PORT;
+export const MYSQL_USER = process.env.MYSQL_USER;
+export const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD;
+export const MYSQL_DATABASE = process.env.MYSQL_DATABASE;
+export const BCRYPT_SALT = process.env.BCRYPT_SALT;
+export const SECRET_KEY = process.env.SECRET_KEY;

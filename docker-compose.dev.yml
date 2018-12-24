@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  web:
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - NODE_ENV=debug
+      - SERVER_PORT=3000
+      - MYSQL_HOST=dbMysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=blog
+      - BCRYPT_SALT=10
+      - SECRET_KEY=secretkey
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./views:/app/views
+    ports:
+      - "3000:3000"
+    depends_on:
+      - dbMysql
+  dbMysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database:/var/lib/mysql
+      - ./database-sql:/docker-entrypoint-initdb.d
+ 

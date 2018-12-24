@@ -74,20 +74,20 @@ class AdminController {
       }
     }
 
-    const passwordHashed = await hashPassword(form.passwd);
-
-    // Insert to DB
-    const user: IUser = {
-      email: form.email,
-      password: passwordHashed,
-      first_name: form.firstname,
-      last_name: form.lastname,
-    };
-
-    logger.info('User info');
-    console.log(user);
-
     try {
+      const passwordHashed = await hashPassword(form.passwd);
+
+      // Insert to DB
+      const user: IUser = {
+        email: form.email,
+        password: passwordHashed,
+        first_name: form.firstname,
+        last_name: form.lastname,
+      };
+
+      logger.info('User info');
+      console.log(user);
+
       const result = await addUser(user);
       logger.info(`Result:`);
       console.log(result);

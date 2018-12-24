@@ -1,4 +1,4 @@
-import mysqlDb from '../custom_modules/common/mysql';
+import { mysqlDb } from '../custom_modules/common/mysql';
 import logger from '../custom_modules/helpers/log/logger';
 
 export const addUser = async (user: IUser) => {

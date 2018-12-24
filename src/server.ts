@@ -3,6 +3,9 @@ import * as path from 'path';
 
 // check process.env and load environment variables
 (() => {
+  if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'debug') {
+    return;
+  }
   // declare path of env file
   const envPath = path.join(__dirname, '../.env');
 
@@ -15,7 +18,9 @@ import * as path from 'path';
 })();
 
 // import after import .env.example
-import { MONGODB_URI, SERVER_PORT, SECRET_KEY } from './custom_modules/config/env-configs';
+import { SERVER_PORT, SECRET_KEY,
+  MYSQL_DATABASE, MYSQL_HOST, MYSQL_PASSWORD, MYSQL_PORT, MYSQL_USER,
+   BCRYPT_SALT } from './custom_modules/config/env-configs';
 import * as express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import * as session from 'express-session';
@@ -25,11 +30,13 @@ import * as morgan from 'morgan';
 import * as socketio from 'socket.io';
 import socketControl from './custom_modules/common/socketcontroller';
 
-import mysqlDb from './custom_modules/common/mysql';
+import { mysqlDb, reconnect } from './custom_modules/common/mysql';
+import * as mysql from 'mysql';
 import logger from './custom_modules/helpers/log/logger';
 import ExceptionCode from './custom_modules/exceptions/ExceptionCode';
 import Exception from './custom_modules/exceptions/Exception';
 import router from './routes/routes';
+import ERROR from './custom_modules/exceptions/ExceptionCode';
 
 const app = express();
 const server = http.createServer(app);
@@ -54,28 +61,40 @@ app.set('view engine', 'ejs');
 app.use('/static', express.static('public'));
 
 if (process.env.NODE_ENV !== 'test') {
-  try {
-    mysqlDb.connect();
-    logger.info(`Mysql connected`);
-  } catch (error) {
-    logger.error(`Failed to connect mysql: ${error}`);
-  }
+
+  mysqlDb.connect((error) => {
+    if (error) {
+      logger.error(`Failed to connect mysql`);
+      console.log(error);
+    } else {
+      logger.info(`Mysql connected`);
+    }
+  });
 }
 
 app.use(morgan('dev'));
 
 app.use(async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    if (mysqlDb.state  === 'disconnect' || mysqlDb.state === 'protocol_error') {
-      logger.error(`Failed to connect mysql`);
+  logger.info(`Mysql Database state: ${mysqlDb.state}`);
+  logger.info(`Mysql Database state: `);
+  console.log(mysqlDb.config);
+  if (mysqlDb.state  === 'disconnected' || mysqlDb.state === 'protocol_error') {
+    logger.error(`Failed to connect mysql`);
 
-      // Reconnect if we can
-      mysqlDb.connect();
-    }
-  } catch (error) {
-    return next(new Exception('server error', 500));
+    reconnect();
+
+    // Reconnect if we can
+    mysqlDb.connect((error) => {
+      if (error) {
+        logger.error(`Failed to connect mysql`);
+        console.log(error);
+
+        return next(new Exception('server error', 500));
+      } else {
+        logger.info(`Mysql connected`);
+      }
+    });
   }
-
   next();
 });
 
@@ -111,6 +130,15 @@ const port = SERVER_PORT;
 server.listen(port, () => {
   logger.info(`Server is running at: http://localhost:${port}`);
   logger.info(`ENV: ${process.env.NODE_ENV}`);
+
+  logger.info(`Server port: ${SERVER_PORT}`);
+  logger.info(`Mysql host: ${MYSQL_HOST}`);
+  logger.info(`Mysql port: ${MYSQL_PORT}`);
+  logger.info(`Mysql user: ${MYSQL_USER}`);
+  logger.info(`Mysql password: ${MYSQL_PASSWORD}`);
+  logger.info(`Mysql database: ${MYSQL_DATABASE}`);
+  logger.info(`Bcrypt salt: ${BCRYPT_SALT}`);
+  logger.info(`Secret key: ${SECRET_KEY}`);
 });
 
 const io = socketio(server);
