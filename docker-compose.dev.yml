@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     environment:
-      - NODE_ENV=debug
+      - NODE_ENV=dev
       - SERVER_PORT=3000
       - MYSQL_HOST=dbMysql
       - MYSQL_PORT=3306
@@ -30,6 +30,6 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./database:/var/lib/mysql
-      - ./database-sql:/docker-entrypoint-initdb.d
+      - ./database-dev:/var/lib/mysql
+      - ./mysql-dump:/docker-entrypoint-initdb.d
  

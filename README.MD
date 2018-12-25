@@ -13,13 +13,10 @@
 2. Command
 * Development: 
 
-        docker-compose -f docker-compose.dev.yml build 
-
-        docker-compose -f docker-compose.dev.yml up
+        docker-compose -f docker-compose.dev.yml up -d
 
 * Production: 
 
         yarn build or npm run build
-        docker-compose build
-        docker-compose up
+        docker-compose up -d
 

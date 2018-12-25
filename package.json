@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev": "NODE_ENV='dev' ts-node ./src/server.ts",
-    "debug": "NODE_ENV='debug' ts-node ./src/server.ts",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/server.ts",
+    "debug": "ts-node ./src/server.ts",
     "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run start"
   },
@@ -42,7 +42,9 @@
     "@types/mysql": "^2.15.5",
     "@types/node": "^10.12.12",
     "@types/socket.io": "^2.1.2",
+    "nodemon": "^1.18.9",
     "ts-node": "^7.0.1",
+    "tsc-watch": "^1.0.31",
     "tslint": "^5.11.0",
     "typescript": "^3.2.1",
     "winston": "^3.1.0"

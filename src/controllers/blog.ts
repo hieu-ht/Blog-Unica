@@ -5,9 +5,10 @@ import logger from '../custom_modules/helpers/log/logger';
 class BlogController {
   public helloBlog = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      res.json({
-        msg: 'Hello friends! Xin chào yaosu',
-      });
+      // res.json({
+      //   msg: 'Hello friends! Xin chào yaosu',
+      // });
+      res.redirect('/blog');
     } catch (error) {
       return next(error);
     }

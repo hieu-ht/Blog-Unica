@@ -7,4 +7,4 @@ RUN yarn
 
 # ADD .env .env.example /app/
 
-CMD ["yarn", "debug"]
+CMD ["yarn", "dev"]

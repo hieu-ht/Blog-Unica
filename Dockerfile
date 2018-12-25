@@ -9,9 +9,6 @@ RUN npm install --production
 ADD ./dist ./dist
 ADD ./views ./views
 ADD ./public ./public
-# ADD ./database-sql ./docker-entrypoint-initdb.d
-# ADD ./.env.example .
-# ADD ./.env .
 
 ADD ./pm2.json .
 CMD ["pm2-runtime", "start", "pm2.json"]

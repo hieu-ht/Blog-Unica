@@ -3,7 +3,9 @@ import * as path from 'path';
 
 // check process.env and load environment variables
 (() => {
-  if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'debug') {
+  if (process.env.NODE_ENV === 'production'
+    || process.env.NODE_ENV === 'debug'
+    || process.env.NODE_ENV === 'dev') {
     return;
   }
   // declare path of env file
