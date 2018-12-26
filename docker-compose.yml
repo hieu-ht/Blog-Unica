@@ -16,7 +16,7 @@ services:
       - BCRYPT_SALT=10
       - SECRET_KEY=secretkey
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       - dbMysql
   dbMysql:
@@ -24,7 +24,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./dist/database:/var/lib/mysql
       - ./mysql-dump:/docker-entrypoint-initdb.d
