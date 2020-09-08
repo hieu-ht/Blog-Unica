@@ -19,7 +19,7 @@
   "author": "hieuht",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv-safe": "^6.1.0",
     "ejs": "^2.6.1",
